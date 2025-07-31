@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* 이거 자꾸 Unknown at rule warn 떠서 너무 슬퍼요 */

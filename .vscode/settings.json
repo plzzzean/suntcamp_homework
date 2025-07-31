@@ -1,0 +1,13 @@
+{
+  "tailwindCSS.experimental.configFile": "./tailwind.config.js",
+  "tailwindCSS.includeLanguages": {
+    "css": "css",
+    "postcss": "css",
+    "scss": "css",
+    "less": "css",
+    "sass": "css"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
