@@ -13,7 +13,7 @@ function HomePage({ posts }) {
   const filteredPosts = useMemo(() => {
     if (!searchField || searchKeyword.trim() === '') return posts;
     return posts.filter((post) =>
-      post[searchField].toLowerCase().includes(searchKeyword.toLowerCase())
+      String(post[searchField]).toLowerCase().includes(searchKeyword.toLowerCase())
     );
   }, [posts, searchField, searchKeyword]);
 
@@ -35,19 +35,17 @@ function HomePage({ posts }) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-4xl text-gray-700 mb-10 text-center">Q&A</h1>
+      <h1 className="text-4xl text-gray-700 mb-10 text-center">Q&amp;A</h1>
 
-        <div className="mb-6 flex justify-between items-center">
-          <PostSearchBox onSearch={handleSearch} />
-
-          <Link
-            to="/write"
-            className="border border-black text-black text-sm font-medium py-1 px-2 hover:bg-gray-50 transition"
-          >
-            글쓰기
-          </Link>
-        </div>
-
+      <div className="mb-6 flex justify-between items-center">
+        <PostSearchBox onSearch={handleSearch} />
+        <Link
+          to="/write"
+          className="border border-black text-black text-sm font-medium py-1 px-2 hover:bg-gray-50 transition"
+        >
+          글쓰기
+        </Link>
+      </div>
 
       {searchField && (
         <div className="mb-4 flex justify-center">
@@ -60,11 +58,13 @@ function HomePage({ posts }) {
         </div>
       )}
 
-      {filteredPosts.length === 0 ? (
+      {posts.length === 0 ? (
+        <p className="text-center text-gray-500 text-lg">아직 작성된 게시글이 없어요 @_@</p>
+      ) : filteredPosts.length === 0 ? (        
         <p className="text-center text-gray-500 text-lg">
           ‘<span className="font-semibold">{searchKeyword}</span>’(이)가 포함된 게시글이 없어요 @_@
         </p>
-      ) : (
+      ) : (       
         <div className="space-y-4">
           <PostTable posts={currentPosts} />
           <Pagination

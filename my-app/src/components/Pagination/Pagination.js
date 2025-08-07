@@ -2,13 +2,12 @@ import React from 'react';
 
 function Pagination({ total, currentPage, onChangePage }) {
   const totalPages = Math.ceil(total / 10); 
-
   const maxPageCount = 5;
   const startPage = Math.max(1, currentPage - Math.floor(maxPageCount / 2));
   const endPage = Math.min(totalPages, startPage + maxPageCount - 1);
   const adjustedStartPage = Math.max(1, endPage - maxPageCount + 1);
-
   const pages = [];
+  
   for (let i = adjustedStartPage; i <= endPage; i++) {
     pages.push(i);
   }

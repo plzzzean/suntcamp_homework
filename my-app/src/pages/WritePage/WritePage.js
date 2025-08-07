@@ -6,29 +6,30 @@ function WritePage({ onAdd }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !author || !content) {
+    if (!title.trim() || !author.trim() || !content.trim()) {
       alert('모든 항목을 입력해주세요!');
       return;
     }
 
-    const newPost = {
-      id: Date.now().toString(),
-      title,
-      author,
-      content,
-      createdAt: new Date().toISOString(),
-    };
-
-    onAdd(newPost);
-    navigate('/');
+    try {
+      setSubmitting(true);
+      await onAdd({ title, author, content });
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      alert('게시글 저장 중 오류가 발생했습니다.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl  mb-6 text-center">게시글 작성</h2>
+      <h2 className="text-2xl mb-6 text-center">게시글 작성</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -49,12 +50,13 @@ function WritePage({ onAdd }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full border border-gray-300 px-4 py-2 h-40 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-        ></textarea>
+        />
         <button
           type="submit"
-          className="w-full bg-gray-100 hover:bg-gray-300 text-black font-semibold py-2 px-4 transition"
+          disabled={submitting}
+          className="w-full bg-gray-100 hover:bg-gray-300 disabled:opacity-50 text-black font-semibold py-2 px-4 transition"
         >
-          저장
+          {submitting ? '저장 중...' : '저장'}
         </button>
       </form>
     </div>
